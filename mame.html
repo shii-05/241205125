@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>豆知識</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="mame.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- ヘッダー（ハンバーガーメニュー） -->
+  <header class="header">
+    <div class="header__container">
+      <h1 class="header__logo"><a href="index.html" onclick="sessionStorage.setItem('seenAnimation', 'true')">MJ</a></h1>
+      <input type="checkbox" id="check">
+      <label for="check" class="hamburger">
+        <span></span>
+      </label>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="index.html">ホーム</a></li>
+          <li class="nav__item"><a href="gakusyoku.html">学食</a></li>
+          <li class="nav__item"><a href="gaisyoku.html">外食</a></li>
+          <li class="nav__item"><a href="index.html">豆知識</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+    <script src="script.js"></script>
+  </body>
+</html>

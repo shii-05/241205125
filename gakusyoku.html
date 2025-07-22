@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>名城食堂まとめ</title>
+  <link rel="stylesheet" href="gakusyoku.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+   <!-- ヘッダー（ハンバーガーメニュー） -->
+  <header class="header">
+    <div class="header__container">
+      <h1 class="header__logo"><a href="index.html" onclick="sessionStorage.setItem('seenAnimation', 'true')">MJ</a></h1>
+      <input type="checkbox" id="check">
+      <label for="check" class="hamburger">
+        <span></span>
+      </label>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="index.html">ホーム</a></li>
+          <li class="nav__item"><a href="gakusyoku.html">学食</a></li>
+          <li class="nav__item"><a href="gaisyoku.html">外食</a></li>
+          <li class="nav__item"><a href="index.html">豆知識</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+      <div class = empty>
+    </div>
+
+  <div class="container mx-auto p-6 space-y-8">
+<!-- ▼ 名城食堂 -->
+<div class="card">
+  <div class="flex flex-col bg-white rounded-xl shadow p-6 items-center">
+    <div class="store-header text-center mb-4">
+      <img src="images/meijosyokudou.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <h2 class="store-title text-5xl font-extrabold text-gray-800">名城食堂</h2>
+    </div>
+    <div class="w-full md:w-2/3 flex flex-col items-center md:items-start space-y-4">
+      <table class="table-auto w-full text-sm border mb-2">
+        <tr><td class="border px-2 py-1 font-semibold">営業時間</td><td class="border px-2 py-1">月〜金 / 10:00〜16:00</td></tr>
+        <tr><td class="border px-2 py-1 font-semibold">場所</td><td class="border px-2 py-1">共通講義棟北B1</td></tr>
+      </table>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>カレー</li><li>うどん</li><li>唐揚げ</li><li>サラダ</li><li>プリン</li>
+      </ul>
+      <div class="w-full">
+        <canvas id="chart1"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- ▼ 食堂カーサ -->
+<div class="card">
+  <div class="flex flex-col bg-white rounded-xl shadow p-6 items-center">
+    <div class="store-header text-center mb-4">
+      <img src="images/ka-sa.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <h2 class="store-title">食堂カーサ</h2>
+    </div>
+    <div class="w-full md:w-2/3 flex flex-col items-center md:items-start space-y-4">
+      <table class="table-auto w-full text-sm border mb-2">
+        <tr><td class="border px-2 py-1 font-semibold">営業時間</td><td class="border px-2 py-1">月〜金 / 11:20〜14:00<br>施設開放 14:00〜17:00</td></tr>
+        <tr><td class="border px-2 py-1 font-semibold">場所</td><td class="border px-2 py-1">タワー75 1F</td></tr>
+      </table>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>ラーメン</li><li>チャーハン</li><li>餃子</li><li>杏仁豆腐</li><li>ジュース</li>
+      </ul>
+      <div class="w-full">
+        <canvas id="chart2"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ▼ ベーカリーカフェオリーブ -->
+<div class="card">
+  <div class="flex flex-col bg-white rounded-xl shadow p-6 items-center">
+    <div class="store-header text-center mb-4">
+      <img src="images/ori-bu.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <h2 class="store-title">ベーカリーカフェオリーブ</h2>
+    </div>
+    <div class="w-full md:w-2/3 flex flex-col items-center md:items-start space-y-4">
+      <table class="table-auto w-full text-sm border mb-2">
+        <tr><td class="border px-2 py-1 font-semibold">営業時間</td><td class="border px-2 py-1">月〜金 / 11:20〜15:00</td></tr>
+        <tr><td class="border px-2 py-1 font-semibold">場所</td><td class="border px-2 py-1">タワー75 1F</td></tr>
+      </table>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>パスタ</li><li>ピザ</li><li>スープ</li><li>ケーキ</li><li>アイス</li>
+      </ul>
+      <div class="w-full">
+        <canvas id="chart3"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ▼ グラン亭･ミラノ -->
+<div class="card">
+  <div class="flex flex-col bg-white rounded-xl shadow p-6 items-center">
+    <div class="store-header text-center mb-4">
+      <img src="images/guran.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <img src="images/mirano.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <h2 class="store-title">グラン亭･ミラノ</h2>
+    </div>
+    <div class="w-full md:w-2/3 flex flex-col items-center md:items-start space-y-4">
+      <table class="table-auto w-full text-sm border mb-2">
+        <tr><td class="border px-2 py-1 font-semibold">営業時間</td><td class="border px-2 py-1">月〜金 / 11:00〜14:00</td></tr>
+        <tr><td class="border px-2 py-1 font-semibold">場所</td><td class="border px-2 py-1">6号館1F</td></tr>
+      </table>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>そば</li><li>かつ丼</li><li>唐揚げ</li><li>パスタ</li><li>ケーキ</li>
+      </ul>
+      <div class="w-full">
+        <canvas id="chart4"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ▼ スガキヤ -->
+<div class="card">
+  <div class="flex flex-col bg-white rounded-xl shadow p-6 items-center">
+    <div class="store-header text-center mb-4">
+      <img src="images/sugakiya.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <h2 class="store-title">スガキヤ</h2>
+    </div>
+    <div class="w-full md:w-2/3 flex flex-col items-center md:items-start space-y-4">
+      <table class="table-auto w-full text-sm border mb-2">
+        <tr><td class="border px-2 py-1 font-semibold">営業時間</td><td class="border px-2 py-1">月〜金 / 11:00〜14:00</td></tr>
+        <tr><td class="border px-2 py-1 font-semibold">場所</td><td class="border px-2 py-1">6号館1F</td></tr>
+      </table>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>ラーメン</li><li>甘味</li><li>ソフトクリーム</li><li>セット</li><li>小鉢</li>
+      </ul>
+      <div class="w-full">
+        <canvas id="chart5"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ▼ BOOK CAFE -->
+<div class="card">
+  <div class="flex flex-col bg-white rounded-xl shadow p-6 items-center">
+    <div class="store-header text-center mb-4">
+      <img src="images/kouyuu.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <h2 class="store-title">BOOK CAFE</h2>
+    </div>
+    <div class="w-full md:w-2/3 flex flex-col items-center md:items-start space-y-4">
+      <table class="table-auto w-full text-sm border mb-2">
+        <tr><td class="border px-2 py-1 font-semibold">営業時間</td><td class="border px-2 py-1">月〜金 / 8:30〜19:00<br>土 / 9:00〜14:00</td></tr>
+        <tr><td class="border px-2 py-1 font-semibold">場所</td><td class="border px-2 py-1">校友会館1F</td></tr>
+      </table>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>パン</li><li>コーヒー</li><li>サンド</li><li>スイーツ</li><li>サラダ</li>
+      </ul>
+      <div class="w-full">
+        <canvas id="chart6"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ▼ そらいろラウンジ -->
+<div class="card">
+  <div class="flex flex-col bg-white rounded-xl shadow p-6 items-center">
+    <div class="store-header text-center mb-4">
+      <img src="images/sorairo.jpg" alt="写真" class="store-image rounded mx-auto mb-4">
+      <h2 class="store-title">そらいろラウンジ</h2>
+    </div>
+    <div class="w-full md:w-2/3 flex flex-col items-center md:items-start space-y-4">
+      <table class="table-auto w-full text-sm border mb-2">
+        <tr><td class="border px-2 py-1 font-semibold">営業時間</td><td class="border px-2 py-1">月〜金 / 11:00〜14:00</td></tr>
+        <tr><td class="border px-2 py-1 font-semibold">場所</td><td class="border px-2 py-1">タワー75 15F</td></tr>
+      </table>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>パスタ</li><li>サラダ</li><li>ケーキ</li><li>ドリンク</li><li>デザート</li>
+      </ul>
+      <div class="w-full">
+        <canvas id="chart7"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+<script>
+function createChart(id, data){
+  new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: {
+      labels: ['9','10','11','12','13','14','15','16'],
+      datasets: [{
+        label: '混雑レベル（1〜5）',
+        data: data,
+        backgroundColor: data.map(v => v>=4?'#f87171':v>=3?'#fbbf24':'#34d399')
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero:true, max:5, ticks:{stepSize:1} }
+      }
+    }
+  });
+}
+createChart('chart1', [1,2,3,4,3,2,1,1]);
+createChart('chart2', [2,3,4,4,3,2,2,1]);
+createChart('chart3', [3,4,5,4,4,3,2,2]);
+createChart('chart4', [1,2,3,3,2,1,1,1]);
+createChart('chart5', [2,3,4,4,3,2,2,1]);
+createChart('chart6', [3,4,5,4,4,3,3,2]);
+createChart('chart7', [1,1,2,2,1,1,1,1]);
+</script>
+</body>
+</html>

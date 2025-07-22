@@ -1,9 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>タイトル</title>
-  <body>
-    aaaaaaa
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>ランチ混雑状況ナビ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<body>
+
+<div class="title-background" id="title-animation">
+  <h1 class="title">
+    <span>M</span><span>E</span><span>I</span><span>J</span><span>O</span><span>U</span><span>N</span><span>I</span>
+  </h1>
+</div>
+
+
+  <!-- ヘッダー（ハンバーガーメニュー） -->
+  <header class="header">
+    <div class="header__container">
+      <h1 class="header__logo"><a href="index.html" onclick="sessionStorage.setItem('seenAnimation', 'true')">MJ</a></h1>
+      <input type="checkbox" id="check">
+      <label for="check" class="hamburger">
+        <span></span>
+      </label>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="index.html">ホーム</a></li>
+          <li class="nav__item"><a href="gakusyoku.html">学食</a></li>
+          <li class="nav__item"><a href="gaisyoku.html">外食</a></li>
+          <li class="nav__item"><a href="index.html">豆知識</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- メインセクション：背景画像と虫眼鏡 -->
+  <section id="home" class="hero-section">
+    <img src="images/kousya.jpeg" alt="校舎" class="hero-image">
+    <img src="images/meijosyokudou.jpeg" alt="名城食堂" class="hero-image">
+    <img src="images/pan.jpeg" alt="ベーカリー" class="hero-image">
+    <img src="images/sugakiya.jpeg" alt="スガキヤ" class="hero-image">
+    <img src="images/tawa-.jpeg" alt="タワー" class="hero-image">
+    <img src="images/gaisyoku.jpg" alt="外食" class="hero-image">
+
+    <img src="images/mushi.png" alt="虫眼鏡名城食堂" class="N">
+    <img src="images/mushi.png" alt="虫眼鏡タワー" class="TOWER">
+    <img src="images/mushi.png" alt="虫眼鏡パン屋" class="BEKARY">
+    <img src="images/mushi.png" alt="虫眼鏡スガキヤ" class="SUGAKIYA">
+    <img src="images/mushi.png" alt="虫眼鏡外食" class="GAISYOKU">
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

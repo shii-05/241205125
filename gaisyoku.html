@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>待ち時間グラフ（全店舗対応）</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="gaisyoku.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__container">
+      <h1 class="header__logo"><a href="index.html" onclick="sessionStorage.setItem('seenAnimation', 'true')">MJ</a></h1>
+      <input type="checkbox" id="check">
+      <label for="check" class="hamburger">
+        <span></span>
+      </label>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="index.html">ホーム</a></li>
+          <li class="nav__item"><a href="gakusyoku.html">学食</a></li>
+          <li class="nav__item"><a href="gaisyoku.html">外食</a></li>
+          <li class="nav__item"><a href="index.html">豆知識</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+    <div class = empty>
+    </div>
+  <h2>待ち時間グラフ</h2>
+
+  <div id="controls">
+    <label for="shopSelect">店舗を選択：</label>
+    <select id="shopSelect"></select>
+
+    <label for="daySelect">曜日を選択：</label>
+    <select id="daySelect">
+      <option value="sunday">日曜日</option>
+      <option value="monday">月曜日</option>
+      <option value="tuesday">火曜日</option>
+      <option value="wednesday">水曜日</option>
+      <option value="thursday">木曜日</option>
+      <option value="friday">金曜日</option>
+      <option value="saturday">土曜日</option>
+    </select>
+  </div>
+
+  <div id="shopInfo"></div>
+
+  <canvas id="waitChart"></canvas>
+
+  <script>
+    // 店舗データ（waitTimeはサンプルデータを入れました）
+    const shopData = {
+      saizeriya: {
+        name: "サイゼリヤ 天白植田西店",
+        image: "images/saize.jpeg",
+        address: "〒468-0058 愛知県名古屋市天白区植田西３丁目３０７",
+        hours: "11時00分～23時00分",
+        menu: ["ミラノ風ドリア"],
+        waitTime: {
+          sunday:    [0, 2, 4, 8, 10, 15, 20, 10, 5, 3, 2, 0],
+          monday:    [0, 1, 2, 3, 5, 7, 8, 6, 4, 2, 1, 0],
+          tuesday:   [0, 1, 2, 3, 5, 7, 10, 8, 4, 2, 1, 0],
+          wednesday: [1, 2, 4, 6, 8, 12, 15, 10, 5, 2, 1, 0],
+          thursday:  [0, 1, 2, 4, 5, 6, 8, 6, 3, 2, 1, 0],
+          friday:    [0, 2, 5, 10, 15, 25, 30, 20, 10, 5, 2, 0],
+          saturday:  [0, 2, 6, 12, 18, 30, 35, 25, 15, 10, 5, 0]
+        }
+      },
+      yoshinoya: {
+        name: "吉野家 塩釜口店",
+        image: "images/yosinoya.jpeg",
+        address: "〒468-0073 愛知県名古屋市天白区塩釜口１丁目８３２",
+        hours: "7時00分～23時00分",
+        menu: ["牛丼"],
+        waitTime: {
+          sunday:    [0, 1, 2, 3, 5, 8, 10, 7, 5, 3, 1, 0],
+          monday:    [0, 1, 2, 3, 4, 6, 8, 6, 4, 2, 1, 0],
+          tuesday:   [0, 1, 2, 3, 5, 7, 9, 6, 4, 2, 1, 0],
+          wednesday: [0, 2, 3, 4, 6, 9, 12, 8, 5, 3, 1, 0],
+          thursday:  [0, 1, 2, 3, 4, 7, 10, 7, 4, 2, 1, 0],
+          friday:    [1, 3, 5, 7, 10, 15, 18, 13, 8, 5, 3, 1],
+          saturday:  [2, 4, 7, 10, 15, 20, 25, 20, 15, 10, 5, 2]
+        }
+      },
+      aburasoba: {
+        name: "東京油そば本舗 名古屋総本店",
+        image: "images/abura.jpeg",
+        address: "〒468-0073 愛知県名古屋市天白区塩釜口２丁目２−９０６",
+        hours: "11時00分～22時00分",
+        menu: ["油そば"],
+        waitTime: {
+          sunday:    [0, 2, 3, 6, 9, 14, 18, 14, 9, 6, 3, 0],
+          monday:    [0, 1, 2, 4, 6, 9, 12, 9, 6, 4, 2, 0],
+          tuesday:   [0, 2, 3, 5, 7, 11, 15, 11, 7, 5, 2, 0],
+          wednesday: [0, 1, 3, 5, 7, 10, 13, 10, 7, 4, 2, 0],
+          thursday:  [0, 1, 2, 4, 6, 8, 12, 8, 5, 3, 1, 0],
+          friday:    [1, 3, 5, 9, 14, 20, 25, 20, 15, 10, 5, 1],
+          saturday:  [2, 4, 6, 10, 16, 25, 30, 25, 20, 15, 8, 3]
+        }
+      },
+      misen: {
+        name: "味仙 八事店",
+        image: "images/ajisen.jpeg",
+        address: "名古屋市天白区植田西3-307",
+        hours: "11時30分～14時00分　17時30分～23時00分　水曜日 定休日",
+        menu: ["台湾ラーメン"],
+        waitTime: {
+          sunday:    [0, 1, 2, 3, 6, 10, 14, 10, 6, 3, 1, 0],
+          monday:    [0, 1, 2, 4, 7, 12, 16, 12, 7, 4, 2, 0],
+          tuesday:   [0, 1, 3, 5, 8, 14, 18, 14, 8, 5, 2, 0],
+          wednesday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // 定休日
+          thursday:  [0, 2, 4, 6, 10, 15, 20, 15, 10, 6, 3, 0],
+          friday:    [1, 3, 5, 9, 14, 20, 26, 20, 15, 10, 5, 1],
+          saturday:  [2, 5, 8, 12, 18, 26, 30, 26, 20, 15, 8, 3]
+        }
+      },
+      osho: {
+        name: "餃子の王将 天白植田店",
+        image: "images/o-syo.jpeg",
+        address: "名古屋市天白区植田西3-307",
+        hours: "11時00分～22時30分　月曜日 定休日",
+        menu: ["餃子", "天津飯"],
+        waitTime: {
+          sunday:    [0, 1, 3, 6, 9, 13, 18, 13, 8, 5, 2, 0],
+          monday:    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // 定休日
+          tuesday:   [0, 2, 4, 7, 11, 15, 20, 15, 10, 7, 3, 0],
+          wednesday: [0, 1, 3, 5, 9, 14, 18, 14, 8, 5, 2, 0],
+          thursday:  [0, 1, 3, 6, 10, 15, 20, 15, 10, 6, 3, 0],
+          friday:    [1, 3, 5, 10, 16, 22, 28, 22, 15, 10, 5, 1],
+          saturday:  [2, 4, 7, 12, 18, 26, 30, 26, 20, 15, 10, 5]
+        }
+      }
+    };
+
+    // 時間ラベル
+    const labels = Array.from({length: 12}, (_, i) => `${i + 6}時`);
+
+    // 待ち時間 → レベル判定
+    function classifyLevel(min) {
+      if (min <= 5) return "low";
+      if (min <= 15) return "medium";
+      return "high";
+    }
+
+    // レベル → 色
+    function levelColor(level) {
+      switch(level) {
+        case "low": return "rgba(75, 192, 192, 0.7)";
+        case "medium": return "rgba(255, 206, 86, 0.7)";
+        case "high": return "rgba(255, 99, 132, 0.7)";
+      }
+    }
+
+    const ctx = document.getElementById('waitChart').getContext('2d');
+    const shopSelect = document.getElementById('shopSelect');
+    const daySelect = document.getElementById('daySelect');
+    const shopInfoDiv = document.getElementById('shopInfo');
+
+    // 店舗セレクトボックスに店舗名を入れる
+    function initShopSelect() {
+      for (const key in shopData) {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = shopData[key].name;
+        shopSelect.appendChild(option);
+      }
+    }
+
+    // グラフ更新関数
+    function updateChart() {
+      const shopKey = shopSelect.value;
+      const dayKey = daySelect.value;
+      const waitTimes = shopData[shopKey].waitTime[dayKey];
+
+      // 背景色配列作成
+      const colors = waitTimes.map(min => levelColor(classifyLevel(min)));
+
+      // グラフデータ更新
+      chart.data.datasets[0].data = waitTimes;
+      chart.data.datasets[0].backgroundColor = colors;
+      chart.update();
+
+      // 店舗情報表示
+      const shop = shopData[shopKey];
+      shopInfoDiv.innerHTML = `
+        <img src="${shop.image}" alt="${shop.name}" class="store-image">
+        <p><strong>住所：</strong>${shop.address}</p>
+        <p><strong>営業時間：</strong>${shop.hours}</p>
+        <p><strong>メニュー例：</strong>${shop.menu.join(", ")}</p>
+      `;
+    }
+
+    // Chart.js 初期化（仮データで初期表示）
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '待ち時間（分）',
+          data: [],
+          backgroundColor: [],
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "待ち時間（分）"
+            }
+          }
+        }
+      }
+    });
+
+    // 初期設定
+    initShopSelect();
+
+    // 今日の曜日をセット
+    const todayName = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][new Date().getDay()];
+    daySelect.value = todayName;
+
+    // 今日の店舗を先頭にセット
+    shopSelect.selectedIndex = 0;
+
+    // 初期グラフ更新
+    updateChart();
+
+    // イベントリスナーで変更時にグラフ更新
+    shopSelect.addEventListener('change', updateChart);
+    daySelect.addEventListener('change', updateChart);
+
+  </script>
+
+</body>
+</html>
